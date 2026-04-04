@@ -46,7 +46,7 @@ if [ -f "$HOME/.ssh/cheve_id_ed25519" ] || [ -f "$HOME/.ssh/id_rsa" ]; then
     echo -e "${YELLOW}SSH key already exists.${NC}"
 else
     echo -e "${YELLOW}No SSH key found. Generating one...${NC}"
-    read -p "Enter your email for the SSH key: " email
+    read -p "Enter your email for the SSH key: " email </dev/tty
     if [ -z "$email" ]; then
         echo -e "${RED}Email is required. Exiting.${NC}"
         exit 1
@@ -57,12 +57,12 @@ else
     cat "$HOME/.ssh/cheve_id_ed25519.pub"
     echo -e "\n${YELLOW}Please add this key to your GitHub account before continuing.${NC}"
     echo -e "${YELLOW}Press Enter when done...${NC}"
-    read -r
+    read -r </dev/tty
 fi
 
 # Step 3: Get repository URL and clone
 echo -e "\n${GREEN}=== Step 3: Cloning dotfiles repository ===${NC}"
-read -p "Enter your dotfiles repository URL (e.g., git@github.com:user/dotfiles.git): " repo_url
+read -p "Enter your dotfiles repository URL (e.g., git@github.com:user/dotfiles.git): " repo_url </dev/tty
 if [ -z "$repo_url" ]; then
     echo -e "${RED}Repository URL is required. Exiting.${NC}"
     exit 1
@@ -71,7 +71,7 @@ fi
 DOTFILES_DIR="$HOME/dotfiles"
 if [ -d "$DOTFILES_DIR" ]; then
     echo -e "${YELLOW}Directory $DOTFILES_DIR already exists.${NC}"
-    read -p "Remove it and clone fresh? (y/n): " response
+    read -p "Remove it and clone fresh? (y/n): " response </dev/tty
     if [[ "$response" =~ ^([yY][eE][sS]|[yY])$ ]]; then
         rm -rf "$DOTFILES_DIR"
     else
