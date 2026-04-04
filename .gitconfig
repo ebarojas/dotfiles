@@ -1,0 +1,8 @@
+[user]
+	name = cheve5
+[include]
+	path = ~/.gitconfig.local
+[color]
+	ui = true
+[core]
+	editor = nvim

@@ -1,0 +1,78 @@
+# User-installed packages
+# These are tools you manually installed, not system packages or dependencies
+
+# Development tools
+git
+git-doc
+gh
+# heroku # Installed differently
+ruby-full
+npm
+nodejs
+mongosh
+postgresql
+yarnpkg
+
+# Editors
+neovim
+
+# Shell
+zsh
+fzf
+# (for nvim as well as life)
+ripgrep
+zoxide
+fd-find
+
+# Utilities
+httpie
+mc
+mosh
+fastfetch
+
+# Document generation etc
+texlive-full
+ffmpeg
+gnupg
+jq
+nmap
+pandoc
+poppler-utils
+qrencode
+imagemagick
+
+# Python
+python3-pip
+
+# Virtualization
+vagrant
+virtualbox-7.2
+docker.io
+
+# SSH server (if you need remote access)
+openssh-server
+openssh-sftp-server
+
+# Dev Ops (still working)
+# llm (pipx based: pipx install llm) 
+# claude code: curl -fsSL https://claude.ai/install.sh | bash
+# ghostty: not in Debian repos — flatpak install flathub com.mitchellh.ghostty
+# bob curl -fsSL https://raw.githubusercontent.com/MordechaiHadad/bob/master/scripts/install.sh | bash
+# then bob install stable and bob use stable
+# eza 
+# font-symbols-only-nerd-font
+
+# Apps
+# zoom
+firefox-esr
+google-chrome-stable
+spotify-client
+calibre
+# gzdoom
+# obsidian
+# telegram
+sublime-text
+torbrowser-launcher
+vlc
+libreoffice
+

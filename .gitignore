@@ -1,0 +1,6 @@
+# Vim/Neovim plugin directories
+.vim/pluggos/
+.vim/plugged/
+*.swp
+*.swo
+

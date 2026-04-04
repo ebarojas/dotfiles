@@ -1,0 +1,15 @@
+Host github.com
+  HostName github.com
+  User git
+  IdentitiesOnly yes
+  IdentityFile ~/.ssh/id_cheve5_25519_gh
+  AddKeysToAgent yes
+
+Host bitbucket.org
+  HostName bitbucket.org
+  User git
+  IdentitiesOnly yes
+  IdentityFile ~/.ssh/id_cheve5_25519_gh
+  AddKeysToAgent yes
+  IdentitiesOnly yes
+
