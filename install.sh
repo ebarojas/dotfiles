@@ -45,7 +45,6 @@ DOTFILES=(
     ".bashrc"
     ".vimrc"
     ".gitconfig"
-    ".ssh_config"
     ".tmux.conf"
 )
 

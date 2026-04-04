@@ -2,14 +2,14 @@ Host github.com
   HostName github.com
   User git
   IdentitiesOnly yes
-  IdentityFile ~/.ssh/id_cheve5_25519_gh
+  IdentityFile ~/.ssh/your_key
   AddKeysToAgent yes
 
 Host bitbucket.org
   HostName bitbucket.org
   User git
   IdentitiesOnly yes
-  IdentityFile ~/.ssh/id_cheve5_25519_gh
+  IdentityFile ~/.ssh/your_key
   AddKeysToAgent yes
   IdentitiesOnly yes
 
