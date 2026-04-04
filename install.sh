@@ -192,7 +192,19 @@ elif [[ "$OSTYPE" == "linux-gnu"* ]]; then
                         fi
                     fi
                     sudo apt-get update
-                    sudo apt-get install -y $PACKAGES
+                    failed=()
+                    for pkg in $PACKAGES; do
+                        if ! sudo apt-get install -y "$pkg"; then
+                            echo -e "${RED}Failed to install: $pkg${NC}"
+                            failed+=("$pkg")
+                        fi
+                    done
+                    if [ ${#failed[@]} -gt 0 ]; then
+                        echo -e "\n${RED}The following packages failed to install:${NC}"
+                        for pkg in "${failed[@]}"; do
+                            echo -e "${RED}  - $pkg${NC}"
+                        done
+                    fi
                 else
                     echo -e "${YELLOW}Skipping package installation.${NC}"
                 fi
