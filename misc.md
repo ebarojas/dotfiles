@@ -31,3 +31,22 @@ Caps lock is pointless, use a more ergonomic ctrl key.
 
 gsettings set org.gnome.desktop.input-sources xkb-options "['caps:ctrl_modifier']"
 
+## Keyboard mappings on hedless tty
+
+On a headless setup, running debian 12 I did the following modifications on /etc/default/keyboard, it's just enough to be able to write basic words in spanish. Font in terminal and terminal also had to b modified via: sudo /usr/sbin/dpkg-reconfigure console-setup
+
+
+These changes need a restart.
+
+```
+# KEYBOARD CONFIGURATION FILE
+
+# Consult the keyboard(5) manual page.
+
+XKBMODEL="pc105"
+XKBLAYOUT="us"
+XKBVARIANT=""
+XKBOPTIONS="ctrl:nocaps, compose:rctrl"
+
+BACKSPACE="guess"
+```
