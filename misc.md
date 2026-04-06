@@ -25,3 +25,9 @@ gsettings set org.gnome.desktop.input-sources sources "[('xkb', 'us')]"
 
 Then restart
 
+## To change caps lock to ctrl key
+
+Caps lock is pointless, use a more ergonomic ctrl key.
+
+gsettings set org.gnome.desktop.input-sources xkb-options "['caps:ctrl_modifier']"
+
