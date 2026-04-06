@@ -41,8 +41,8 @@ echo -e "\n${GREEN}=== Step 1: Symlinking dotfiles ===${NC}"
 
 # List of dotfiles to symlink
 DOTFILES=(
-    ".zshrc"
-    ".bashrc"
+#    ".zshrc"
+#    ".bashrc"
     ".vimrc"
     ".gitconfig"
     ".tmux.conf"
@@ -53,8 +53,9 @@ for dotfile in "${DOTFILES[@]}"; do
         # Special handling for .ssh_config -> ~/.ssh/config
         if [ "$dotfile" = ".ssh_config" ]; then
             # Ensure .ssh directory exists
-            mkdir -p "$HOME/.ssh"
-            symlink_file "$DOTFILES_DIR/$dotfile" "$HOME/.ssh/config"
+            echo "Doing nothing"
+	    # mkdir -p "$HOME/.ssh"
+            # symlink_file "$DOTFILES_DIR/$dotfile" "$HOME/.ssh/config"
         else
             symlink_file "$DOTFILES_DIR/$dotfile" "$HOME/$dotfile"
         fi
@@ -131,66 +132,7 @@ elif [[ "$OSTYPE" == "linux-gnu"* ]]; then
                             echo -e "${YELLOW}Heroku repository already configured.${NC}"
                         fi
                     fi
-                    # Check if vagrant is in the package list and set up repository if needed
-                    if echo "$PACKAGES" | grep -q "vagrant"; then
-                        if ! grep -q "apt.releases.hashicorp.com" /etc/apt/sources.list.d/* 2>/dev/null && [ ! -f /etc/apt/sources.list.d/hashicorp.list ]; then
-                            echo -e "${GREEN}Setting up HashiCorp repository for Vagrant...${NC}"
-                            curl -fsSL https://apt.releases.hashicorp.com/gpg | sudo gpg --dearmor -o /usr/share/keyrings/hashicorp-archive-keyring.gpg
-                            echo "deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/hashicorp.list
-                        else
-                            echo -e "${YELLOW}HashiCorp repository already configured.${NC}"
-                        fi
-                    fi
-                    # MongoDB (mongosh) — uses bookworm repo, trixie not yet supported
-                    if echo "$PACKAGES" | grep -q "mongosh"; then
-                        if [ ! -f /etc/apt/sources.list.d/mongodb-org-8.0.list ]; then
-                            echo -e "${GREEN}Setting up MongoDB repository...${NC}"
-                            curl -fsSL https://www.mongodb.org/static/pgp/server-8.0.asc | sudo gpg --dearmor -o /etc/apt/keyrings/mongodb-server-8.0.gpg
-                            echo "deb [ arch=amd64,arm64 signed-by=/etc/apt/keyrings/mongodb-server-8.0.gpg ] https://repo.mongodb.org/apt/debian bookworm/mongodb-org/8.0 main" | sudo tee /etc/apt/sources.list.d/mongodb-org-8.0.list
-                        else
-                            echo -e "${YELLOW}MongoDB repository already configured.${NC}"
-                        fi
-                    fi
-                    # VirtualBox — Oracle repo
-                    if echo "$PACKAGES" | grep -q "virtualbox"; then
-                        if [ ! -f /etc/apt/sources.list.d/virtualbox.list ]; then
-                            echo -e "${GREEN}Setting up VirtualBox repository...${NC}"
-                            curl -fsSL https://www.virtualbox.org/download/oracle_vbox_2016.asc | sudo gpg --yes --dearmor -o /usr/share/keyrings/oracle-virtualbox-2016.gpg
-                            echo "deb [arch=amd64 signed-by=/usr/share/keyrings/oracle-virtualbox-2016.gpg] https://download.virtualbox.org/virtualbox/debian trixie contrib" | sudo tee /etc/apt/sources.list.d/virtualbox.list
-                        else
-                            echo -e "${YELLOW}VirtualBox repository already configured.${NC}"
-                        fi
-                    fi
-                    # Google Chrome
-                    if echo "$PACKAGES" | grep -q "google-chrome"; then
-                        if [ ! -f /etc/apt/sources.list.d/google-chrome.list ]; then
-                            echo -e "${GREEN}Setting up Google Chrome repository...${NC}"
-                            curl -fsSL https://dl.google.com/linux/linux_signing_key.pub | sudo gpg --dearmor -o /etc/apt/keyrings/google-chrome.gpg
-                            echo "deb [arch=amd64 signed-by=/etc/apt/keyrings/google-chrome.gpg] https://dl.google.com/linux/chrome/deb/ stable main" | sudo tee /etc/apt/sources.list.d/google-chrome.list
-                        else
-                            echo -e "${YELLOW}Google Chrome repository already configured.${NC}"
-                        fi
-                    fi
-                    # Spotify
-                    if echo "$PACKAGES" | grep -q "spotify"; then
-                        if [ ! -f /etc/apt/sources.list.d/spotify.list ]; then
-                            echo -e "${GREEN}Setting up Spotify repository...${NC}"
-                            curl -sS https://download.spotify.com/debian/pubkey_5384CE82BA52C83A.asc | sudo gpg --dearmor --yes -o /etc/apt/keyrings/spotify.gpg
-                            echo "deb [signed-by=/etc/apt/keyrings/spotify.gpg] https://repository.spotify.com stable non-free" | sudo tee /etc/apt/sources.list.d/spotify.list
-                        else
-                            echo -e "${YELLOW}Spotify repository already configured.${NC}"
-                        fi
-                    fi
-                    # Sublime Text
-                    if echo "$PACKAGES" | grep -q "sublime-text"; then
-                        if [ ! -f /etc/apt/sources.list.d/sublime-text.sources ]; then
-                            echo -e "${GREEN}Setting up Sublime Text repository...${NC}"
-                            wget -qO - https://download.sublimetext.com/sublimehq-pub.gpg | sudo tee /etc/apt/keyrings/sublimehq-pub.asc > /dev/null
-                            printf 'Types: deb\nURIs: https://download.sublimetext.com/\nSuites: apt/stable/\nSigned-By: /etc/apt/keyrings/sublimehq-pub.asc\n' | sudo tee /etc/apt/sources.list.d/sublime-text.sources
-                        else
-                            echo -e "${YELLOW}Sublime Text repository already configured.${NC}"
-                        fi
-                    fi
+                    
                     sudo apt-get update
                     failed=()
                     for pkg in $PACKAGES; do

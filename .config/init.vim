@@ -5,6 +5,9 @@ call plug#begin(g:plug_home)
 Plug 'brooth/far.vim'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
+
+Plug 'nvim-lua/plenary.nvim'
+Plug 'nvim-telescope/telescope.nvim'
 " UI
 Plug 'chriskempson/base16-vim'
 Plug 'vim-airline/vim-airline'
@@ -22,7 +25,7 @@ Plug 'tpope/vim-fugitive'
 Plug 'neovim/nvim-lspconfig'
 Plug 'williamboman/mason.nvim'
 Plug 'williamboman/mason-lspconfig.nvim'
-Plug 'saghen/blink.cmp', { 'tag': 'v1.*' }
+Plug 'saghen/blink.cmp', { 'do': 'cargo build --release' }
 call plug#end()
 
 " Colorscheme

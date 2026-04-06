@@ -9,7 +9,6 @@ gh
 ruby-full
 npm
 nodejs
-mongosh
 postgresql
 yarnpkg
 
@@ -31,7 +30,6 @@ mosh
 fastfetch
 
 # Document generation etc
-texlive-full
 ffmpeg
 gnupg
 jq
@@ -45,8 +43,6 @@ imagemagick
 python3-pip
 
 # Virtualization
-vagrant
-virtualbox-7.2
 docker.io
 
 # SSH server (if you need remote access)
@@ -64,15 +60,5 @@ openssh-sftp-server
 
 # Apps
 # zoom
-firefox-esr
-google-chrome-stable
-spotify-client
-calibre
-# gzdoom
-# obsidian
 # telegram
-sublime-text
-torbrowser-launcher
-vlc
-libreoffice
 
