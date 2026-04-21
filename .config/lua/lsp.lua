@@ -7,6 +7,7 @@ require('mason-lspconfig').setup{
         'vue_ls',
         'bashls',
         'texlab',
+        'marksman',
     },
 }
 
