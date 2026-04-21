@@ -20,7 +20,7 @@ export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
 
 # FZF
-source <(fzf --zsh)
+source <(fzf --zsh 2>/dev/null) 2>/dev/null
 
 # Machine-specific overrides (local to each machine, not tracked in dotfiles)
 [[ -f ~/.zshrc.local ]] && source ~/.zshrc.local
