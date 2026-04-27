@@ -5,7 +5,7 @@
 #
 # Adds these commands on top of the standard todo.sh interface:
 #
-#   t sync   Pull remote changes, optionally commit local ones, then push.
+#   t sync   Optionally commit local changes, pull remote, then push.
 #   t sls    Run sync, then list tasks (sync + ls).
 #
 # Every other command is forwarded to todo.sh unchanged via exec.
@@ -27,6 +27,10 @@ TODO_DIR="${TODO_DIR:-$HOME/todo}"
 # Output helpers
 # ---------------------------------------------------------------------------
 
+# ANSI color codes — used sparingly for messages that need user attention.
+YELLOW='\033[1;33m'
+RESET='\033[0m'
+
 # info: normal informational messages, printed to stdout.
 info()  { echo "[atodo] $*"; }
 
@@ -35,6 +39,9 @@ warn()  { echo "[atodo] WARNING: $*" >&2; }
 
 # abort: fatal problems — print to stderr and exit non-zero.
 abort() { echo "[atodo] ERROR: $*" >&2; exit 1; }
+
+# prompt_yellow: print a message in yellow, no trailing newline (for read prompts).
+prompt_yellow() { printf "${YELLOW}%s${RESET}" "$*"; }
 
 # ---------------------------------------------------------------------------
 # git_todo — run any git command inside $TODO_DIR
@@ -47,42 +54,28 @@ git_todo() {
 }
 
 # ---------------------------------------------------------------------------
-# cmd_sync — the full sync cycle: pull → maybe commit → push
+# cmd_sync — the full sync cycle: commit → pull → push
 # ---------------------------------------------------------------------------
 cmd_sync() {
 
-    # ---- Step 1: Pull with rebase ------------------------------------------
+    # ---- Step 1: Check for uncommitted local changes -----------------------
     #
-    # --rebase keeps the local history linear (avoids merge commits for what
-    # are usually simple text-file changes). If the rebase fails due to a
-    # conflict, git leaves the repo in a mid-rebase state, so we abort it
-    # immediately to restore a clean working tree and let the user fix it.
-
-    info "Pulling latest changes (git pull --rebase)..."
-
-    if ! git_todo pull --rebase; then
-        git_todo rebase --abort 2>/dev/null || true
-        warn "Pull failed — a conflict may exist. The rebase has been aborted."
-        warn "Please resolve the conflict manually in: $TODO_DIR"
-        warn "Then run 't sync' again."
-        exit 1
-    fi
-
-    # ---- Step 2: Check for uncommitted local changes -----------------------
+    # `git pull --rebase` refuses to run when the working tree is dirty, so we
+    # must commit (or confirm no changes) before pulling. We do this first.
     #
     # `git status --porcelain` produces one line per changed/untracked file,
     # and produces no output at all when the working tree is clean.
-    # We capture it into a variable so we can branch on whether it's empty.
 
     local uncommitted
     uncommitted=$(git_todo status --porcelain)
 
     if [[ -n "$uncommitted" ]]; then
-        info "You have uncommitted changes in $TODO_DIR:"
+        echo
+        prompt_yellow "[atodo] Warning: there are uncommitted changes in $TODO_DIR:"
         echo
         git_todo status --short
         echo
-        printf "[atodo] Commit and push these changes? [y/N] "
+        prompt_yellow "[atodo] Commit and push these changes? [y/N] "
         read -r answer
 
         # Treat anything other than an explicit 'y' or 'Y' as a cancellation.
@@ -102,6 +95,23 @@ cmd_sync() {
 
     else
         info "Working tree is clean — nothing to commit."
+    fi
+
+    # ---- Step 2: Pull with rebase ------------------------------------------
+    #
+    # --rebase keeps the local history linear (avoids merge commits for what
+    # are usually simple text-file changes). If the rebase fails due to a
+    # conflict, git leaves the repo in a mid-rebase state, so we abort it
+    # immediately to restore a clean working tree and let the user fix things.
+
+    info "Pulling latest changes (git pull --rebase)..."
+
+    if ! git_todo pull --rebase; then
+        git_todo rebase --abort 2>/dev/null || true
+        warn "Pull failed — a conflict may exist. The rebase has been aborted."
+        warn "Please resolve the conflict manually in: $TODO_DIR"
+        warn "Then run 't sync' again."
+        exit 1
     fi
 
     # ---- Step 3: Push ------------------------------------------------------
