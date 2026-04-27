@@ -13,7 +13,7 @@ fi
 # Bob for nvim
 export PATH="$HOME/.local/share/bob/nvim-bin:$PATH"
 
-export PATH="$HOME/.local/bin:$PATH"
+export PATH="$HOME/.local/bin:$HOME/dotfiles/bin:$PATH"
 
 # For MOSH
 export LC_ALL=en_US.UTF-8
@@ -42,3 +42,8 @@ setopt HIST_IGNORE_DUPS
 setopt SHARE_HISTORY
 setopt HIST_IGNORE_SPACE
 setopt APPEND_HISTORY
+
+# Alias for todo.txt-cli wrapper — active when the todo dir exists only.
+if [[ -d "${TODO_DIR:-$HOME/todo}" ]]; then
+    alias t="$HOME/dotfiles/bin/atodo.sh"
+fi
