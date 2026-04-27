@@ -25,14 +25,18 @@ source <(fzf --zsh 2>/dev/null) 2>/dev/null
 # Machine-specific overrides (local to each machine, not tracked in dotfiles)
 [[ -f ~/.zshrc.local ]] && source ~/.zshrc.local
 
-# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
-
 # ls config for macOSs colours
 alias ls='ls --color=auto'
 
-# p10k
-source ~/powerlevel10k/powerlevel10k.zsh-theme
+# p10k: Homebrew (Apple Silicon) on macOS; git clone in $HOME on Linux
+if [[ "$OSTYPE" == darwin* ]]; then
+  source /opt/homebrew/share/powerlevel10k/powerlevel10k.zsh-theme
+else
+  source ~/powerlevel10k/powerlevel10k.zsh-theme
+fi
+
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh. Load after the theme.
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
 # History File Config
 HISTFILE=~/.zsh_history
