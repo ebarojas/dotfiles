@@ -106,10 +106,10 @@ cmd_sync() {
 
     info "Pulling latest changes (git pull --rebase)..."
 
-    if ! timeout 30 git_todo pull --rebase; then
+    if ! git_todo pull --rebase; then
         git_todo rebase --abort 2>/dev/null || true
-        warn "Pull failed (network error, timeout, or conflict)."
-        warn "Please resolve any conflicts in $TODO_DIR or check internet connection."
+        warn "Pull failed — a conflict may exist. The rebase has been aborted."
+        warn "Please resolve the conflict manually in: $TODO_DIR"
         warn "Then run 't sync' again."
         exit 1
     fi
